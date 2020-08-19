@@ -1,0 +1,199 @@
+INTRODUCTION TO RELATIONAL DATABASES
+8/18/20
+
+Data persistence === one of most important things in backend
+
+Persistent data: Data that's saved for a long period of time. It doesn't get cleared out when the computer restarts or process ends.
+        --- it's usually saved on a long term storage device
+        --- it doesn't changed unless we change it on purpose
+
+Non-persistent data: data that's saved for a short time. It gets cleared out when the computer restarts or process ends.
+        --- ex) stored in RAM - cleared when computer restarts
+        --- server restart - data is lost (if non-pers)
+
+Benefits of Non-Pers:
+        --- Not all data needs to be saved long term
+        --- It's a lot faster than persistent
+
+Drawbacks of Non-Pers:
+        --- It gets lost often (it's not long term)
+
+Benefits of Pers:
+        --- It's long term
+
+Drawbacks of Pers:
+        --- It's slower than non-pers
+
+Persisting data on a computer:
+        --- Save it in a file
+
+It is very difficult to access data from files that are not JS files using JS
+
+Databases: Specialized computer programs that help with saving, organizing, and searching large sets of data
+        --- Much faster than word, txt, spreadsheet files
+        --- can easily save and query millions of entries
+        --- easy to use with a JS app
+
+
+Relational Databases: Pretty much a spreadsheet
+        --- a collection of Rows and Columns
+
+        --- Table === collection of rows
+        --- Row === single record in table
+        --- Column === a value required for each row
+
+        --- Has much more functionality than regular spreadsheet
+
+        --- Has more rows than columns (usually)
+
+        --- Fixed number of columns, potentially infinite rows
+
+        --- It's a spreadsheet on steroids
+
+Interacting with Relational Databases:
+        --- We use SQL
+
+SQL (Structured Query Language): english-like language we use to talk to relational databases and tell them to query, save, and update data
+        --- Easy to learn
+        
+SQL Syntax:
+        --- CAPITAL === command
+        --- lowercase === table, column, or row (entry)
+        --- end with ; === REQUIRED
+        --- * === wildcard (grabs all of something)
+        --- Casing is convention, not required in SQL
+        --- Table names can sometimes conflict with SQL commands
+                --- Fix it by wrapping the table name in ""
+                --- good practice to always wrap identifiers in ""
+        --- "" === identifiers (tables, columns, etc)
+                --- good practice to always wrap identifiers in ""
+        --- '' === strings
+
+
+        --- EX) SELECT email
+                FROM people
+                WHERE name = 'Jason Maurer';
+
+SQL Command Types:
+        --- Data Query Language (DQL): Ask questions about data
+        --- Data Manipulation Language (DML): Save, Update, Delete Data
+        --- Data Definition Language (DDL): Modify database structure (tables)
+
+        --- Tonight: DQL, DML
+        --- Thursday: DDL
+
+There are dialects of SQL
+        --- Slightly different Syntax
+
+        --- SQLlite
+        --- mysql
+        --- oracle
+        --- postgressql
+
+We are using SQLite
+
+Databases are in binary
+        --- We can use database-browsing programs to open it
+                --- ex: TablePlus
+
+        --- When we open the database with TablePlus we can see the database and interact with it
+                --- the tables are on the left
+                --- when clicked, the data appears in the middle
+
+EX))))
+        SELECT CompanyName FROM Customer;
+
+        --- grabs the CompanyName column from the Customer table
+
+        SELECT CompanyName, City FROM Customer;
+
+        --- also grabs the City column
+
+        SELECT CompanyName, City, Country FROM Customer;
+
+        --- also grabs Country column
+
+        SELECT * FROM Customer;
+
+        --- grabs all columns from Customer table
+
+        SELECT * 
+        FROM Customer
+        WHERE Country = 'USA';
+
+        --- grabs all entries from Customer table that are in the USA
+
+        SELECT * 
+        FROM Customer
+        WHERE Country = 'USA'
+        AND City = 'Portland';
+
+        --- grabs entries where Country = USA and City = Portland
+
+        SELECT * 
+        FROM Customer
+        WHERE City = 'Portland'
+        OR City = 'London';
+
+        --- grabs entries from Portland and London
+
+SQL is a widely used language (even outside of tech)
+        --- It's a valuable skill
+
+DQL
+WHERE Clause:
+        --- filters the results
+        --- can use =, >, <, =>, =< with it
+
+ORDER BY:
+        --- sorts the results ascending or descending
+        --- Descending (DESC) = Z - A, 9 - 1 (last to first, large to small)
+        --- Ascending (ASC) = A - Z, 1 - 9 (first to last, small to large)
+
+LIMIT:
+        --- only shows X number of results
+
+DML
+
+INSERT INTO:
+        INSERT INTO <table> (<columns>) 
+        VALUES (<values>);
+
+        table === which table
+        columns === which columns
+        values === data to enter
+
+        EX)) 
+                INSERT INTO "Category" ("CategoryName", "Description")
+                VALUES ('Frozen', 'Ready-to-eat meals');
+
+UPDATE:
+        UPDATE <table>
+        SET <column> = <value>
+        WHERE <column> = <value>;
+
+        EX))
+                UPDATE "Category"
+                SET "Description" = 'Desserts and ready-to-eat meals'
+                WHERE "Id" = 9;
+
+DELETE:
+        DELETE FROM <table>
+        WHERE <column> = <value>;
+
+        EX))
+                DELETE FROM "Category"
+                WHERE "Id" = 9;
+
+SQL does exactly what we tell it to do
+        --- be very, very, very careful with what commands you run
+        --- there is no undo for live databases
+        --- BE ESPECIALLY CAREFUL WITH THE DELETE COMMAND
+        --- AGAIN, THERE IS NO UNDO
+
+Run SQL commands from JS:
+        --- use query builder library like knex.js
+        
+        npm install knex sqlite3 --save
+
+        --- lets us read and write from database (db3) file
